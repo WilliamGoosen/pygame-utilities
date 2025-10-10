@@ -16,8 +16,21 @@ class Button:
             text: str = "",
             text_size: int = 20,
             text_colour: tuple[int, int, int] = WHITE,
+            anchor_x: str = "left",     # "left", "center", "right"
+            anchor_y: str = "top",      # "top", "center", "bottom"
             border_radius: int = 0
             ) -> None:
+        
+        if anchor_x == "center":
+            x -= width // 2
+        elif anchor_x == "right":
+            x -= width
+        
+        if anchor_y == "center":
+            y -= height // 2
+        elif anchor_y == "bottom":
+            y -= height
+
         self.surface = surface
         self.border_radius = border_radius
         self.text = text
@@ -73,8 +86,11 @@ class ImageButton:
                  text: str = "",
                  text_size: int = 20,
                  text_colour: tuple[int, int, int] = WHITE,
-                 border_radius: int = 0
+                 border_radius: int = 0,
+                 anchor_x: str = "left",
+                 anchor_y: str = "top"
                  ) -> None:
+
         self.button = Button(
             surface,
             x,
@@ -83,14 +99,13 @@ class ImageButton:
             height = normal_image.get_height(),
             text = text,
             text_size = text_size,
+            anchor_x=anchor_x,
+            anchor_y=anchor_y,
             text_colour = text_colour
             )
         self.normal_image = normal_image
         self.hover_image = hover_image
         self.pressed_image = pressed_image
-        self.pos_x = x
-        self.pos_y = y
-        self.rect = self.normal_image.get_rect()
 
     def update(self, mouse_pos) -> None:
         return self.button.update(mouse_pos)
