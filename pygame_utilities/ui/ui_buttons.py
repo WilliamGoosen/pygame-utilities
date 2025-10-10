@@ -100,9 +100,9 @@ class ImageButton:
 
     def draw(self) -> None:
         if self.button.is_pressed:
-            image = self.pressed_image or self._tint_image(self.normal_image, (50, 50, 50))
+            image = self.pressed_image or self._tint_image(self.normal_image, (25, 25, 25))
         elif self.button.is_hovered:
-            image = self.hover_image or self._highlight_image(self.normal_image, (50, 50, 50))
+            image = self.hover_image or self._highlight_image(self.normal_image, (25, 25, 25))
         else:
             image = self.normal_image
 
