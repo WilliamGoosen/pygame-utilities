@@ -28,6 +28,7 @@ class Button:
         height: int = 50,
         text: str = "",
         text_size: int = 20,
+        text_font: str = "arial",
         text_colour: Colour = WHITE,
         anchor_x: AnchorX = "left",
         anchor_y: AnchorY = "top",
@@ -71,6 +72,7 @@ class Button:
         self.border_radius = border_radius
         self.text = text
         self.text_size = text_size
+        self.text_font = text_font
         self.text_colour = text_colour
         self.normal_colour = colour
         self.hovered_colour = tuple(min(c + 75, 255) for c in self.normal_colour)
@@ -138,6 +140,8 @@ class Button:
             self.text_size,
             self.rect.centerx,
             self.rect.centery,
+            font_name=self.text_font,
+            colour=self.text_colour,
             align_x="center",
             align_y="center",
         )
@@ -154,6 +158,7 @@ class ImageButton:
         pressed_image: Optional[pg.Surface] = None,
         text: str = "",
         text_size: int = 20,
+        text_font: str = "arial",
         text_colour: Colour = WHITE,
         border_radius: int = 0,
         anchor_x: AnchorX = "left",
@@ -198,15 +203,16 @@ class ImageButton:
             y,
             width=normal_image.get_width(),
             height=normal_image.get_height(),
-            text=text,
-            text_size=text_size,
             anchor_x=anchor_x,
             anchor_y=anchor_y,
-            text_colour=text_colour,
         )
         self.normal_image = normal_image
         self.hover_image = hover_image
         self.pressed_image = pressed_image
+        self.text = text
+        self.text_size = text_size
+        self.text_font = text_font
+        self.text_colour = text_colour
 
     def update(self, mouse_pos) -> None:
         """Update button state based on mouse position."""
@@ -238,10 +244,12 @@ class ImageButton:
 
         draw_text(
             self.button.surface,
-            self.button.text,
-            self.button.text_size,
+            self.text,
+            self.text_size,
             self.button.rect.centerx,
             self.button.rect.centery,
+            font_name=self.text_font,
+            colour=self.text_colour,
             align_x="center",
             align_y="center",
         )
