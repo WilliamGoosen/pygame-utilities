@@ -51,10 +51,10 @@ class Button:
             border_radius: Corner radius for rounded corners (0 = square)
 
         Example:
-            # Button centered at (400, 300)
+            ### Button centered at (400, 300)
             button = Button(screen, 400, 300, anchor_x="center", anchor_y="center")
 
-            # Button with top-left at (100, 100)
+            ### Button with top-left at (100, 100)
             button = Button(screen, 100, 100, colour=(255, 0, 0), text="Click me")
         """
         if anchor_x == "center":
@@ -177,6 +177,20 @@ class ImageButton:
             border_radius: Corner radius for rounded corners (0 = square)
             anchor_x: Horizontal reference point for positioning
             anchor_y: Vertical reference point for positioning
+
+        Example:
+            ### Basic image button
+            button = ImageButton(screen, 100, 100, normal_image=play_icon)
+
+            ### Image button with custom states and text
+            button = ImageButton(
+                screen, 200, 200,
+                normal_image=normal_img,
+                hover_image=hover_img,
+                pressed_image=pressed_img,
+                text="Play",
+                anchor_x="center"
+            )
         """
         self.button = Button(
             surface,
