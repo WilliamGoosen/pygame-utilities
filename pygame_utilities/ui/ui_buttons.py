@@ -33,6 +33,7 @@ class Button:
         anchor_x: AnchorX = "left",
         anchor_y: AnchorY = "top",
         border_radius: int = 0,
+        is_clickable: bool = True,
     ) -> None:
         """
         Create a rectangular button with hover and press effects.
@@ -50,6 +51,7 @@ class Button:
             anchor_x: Horizontal reference point for positioning
             anchor_y: Vertical reference point for positioning
             border_radius: Corner radius for rounded corners (0 = square)
+            is_clickable: flag to disable ability to click button
 
         Example:
             ### Button centered at (400, 300)
@@ -80,6 +82,18 @@ class Button:
         self.rect = pg.Rect((x, y, width, height))
         self.is_hovered = False
         self.is_pressed = False
+        self._is_clickable = is_clickable
+
+    @property
+    def is_clickable(self) -> bool:
+        return self._is_clickable
+
+    @is_clickable.setter
+    def is_clickable(self, value: bool) -> None:
+        self._is_clickable = value
+        if not value:
+            self.is_hovered = False
+            self.is_pressed = False
 
     def update(self, mouse_pos: tuple[int, int]) -> None:
         """Update button state based on mouse position."""
@@ -87,6 +101,9 @@ class Button:
 
     def check_hover(self, mouse_pos: tuple[int, int]) -> None:
         """Check if mouse is hovering over the button."""
+        if not self.is_clickable:
+            return
+
         if self.rect.collidepoint(mouse_pos):
             self.is_hovered = True
         else:
@@ -99,6 +116,9 @@ class Button:
         Returns:
             bool: True if button was clicked, False otherwise
         """
+        if not self.is_clickable:
+            return False
+
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
                 self.is_pressed = True
@@ -163,6 +183,7 @@ class ImageButton:
         border_radius: int = 0,
         anchor_x: AnchorX = "left",
         anchor_y: AnchorY = "top",
+        is_clickable: bool = True,
     ) -> None:
         """
         Create a button using images instead of colored rectangles.
@@ -182,6 +203,7 @@ class ImageButton:
             border_radius: Corner radius for rounded corners (0 = square)
             anchor_x: Horizontal reference point for positioning
             anchor_y: Vertical reference point for positioning
+            is_clickable: flag to disable ability to click button
 
         Example:
             ### Basic image button
@@ -205,6 +227,7 @@ class ImageButton:
             height=normal_image.get_height(),
             anchor_x=anchor_x,
             anchor_y=anchor_y,
+            is_clickable=is_clickable,
         )
         self.normal_image = normal_image
         self.hover_image = hover_image
@@ -213,6 +236,14 @@ class ImageButton:
         self.text_size = text_size
         self.text_font = text_font
         self.text_colour = text_colour
+
+    @property
+    def is_clickable(self) -> bool:
+        return self.button.is_clickable
+
+    @is_clickable.setter
+    def is_clickable(self, value: bool) -> None:
+        self.button.is_clickable = value
 
     def update(self, mouse_pos) -> None:
         """Update button state based on mouse position."""
